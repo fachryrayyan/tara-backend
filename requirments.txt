@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+beanie==1.26.0
+motor==3.5.1
+pydantic
