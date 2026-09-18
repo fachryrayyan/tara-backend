@@ -13,25 +13,23 @@ router = APIRouter(
     tags=["Gemini AI"]
 )
 
-# Inisialisasi Gemini Client menggunakan API Key dari .env
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-# Skema Request Body
 class PromptRequest(BaseModel):
     prompt: str
 
 @router.post("/chat")
 async def chat_with_gemini(
     request: PromptRequest,
-    current_user: User = Depends(get_current_user) # Terproteksi dengan JWT Login Google
+    current_user: User = Depends(get_current_user)
 ):
     """
     Endpoint untuk berinteraksi dengan Gemini AI (Membutuhkan Login)
     """
     try:
-        # Memanggil model Gemini terbaru (gemini-2.5-flash cocok untuk teks & cepat)
+        # Gunakan gemini-2.5-flash untuk SDK google-genai
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.6-flash",
             contents=request.prompt,
         )
         return {

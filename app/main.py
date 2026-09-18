@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from app.database import init_db
 from app.models.sensor import SensorData
-from app.routers import sensor, auth  # Import router auth
+from app.routers import sensor, auth, gemini  # Import router auth
 
 load_dotenv()
 
@@ -23,6 +23,7 @@ app = FastAPI(title="Tara Backend - OAuth2 Protected API", lifespan=lifespan)
 
 app.include_router(auth.router)    # Endpoint /auth/register dan /auth/login
 app.include_router(sensor.router)  # Endpoint /sensor/
+app.include_router(gemini.router)
 
 # 1. Konfigurasi MQTT untuk HiveMQ Cloud
 mqtt_config = MQTTConfig(
@@ -35,9 +36,6 @@ mqtt_config = MQTTConfig(
 )
 
 fast_mqtt = FastMQTT(config=mqtt_config)
-
-# 2. PASTIIN BARIS INI ADA! (Ini yang mendaftarkan endpoint ke Swagger)
-app.include_router(sensor.router)
 
 @fast_mqtt.on_connect()
 def connect_handler(client, flags, rc, properties):
