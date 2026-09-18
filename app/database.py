@@ -2,9 +2,12 @@ import motor.motor_asyncio
 from beanie import init_beanie
 from app.models.sensor import SensorData
 from app.models.user import User  # <-- Import User
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
-MONGO_DETAILS = "mongodb+srv://fachryrayyan30_db_user:ClOVXiiMV1KivyFX@test.xzmyn4j.mongodb.net/"
+MONGO_DETAILS = os.getenv("MONGO_DETAILS")
 
 async def init_db():
     client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
